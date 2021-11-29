@@ -1,0 +1,15 @@
+import pandas as pd
+import collections
+
+dictionary = collections.defaultdict(list)
+path_to_games = input()
+path_to_rates = input()
+rates = pd.read_csv(path_to_rates)
+games = pd.read_csv(path_to_games)
+games_merge = pd.merge(games, rates, on='id')
+for i in range(1, games.shape[0] + 1):
+    dictionary[i] = "%.3f" % (games_merge.loc[games_merge.id == i]['mark'].mean())
+dictionary = dict(sorted(dictionary.items(), key=lambda e: e[1], reverse=True))
+for i in range(3):
+    print(games_merge.loc[games_merge.id == list(dictionary.items())[i][0]]['name'].unique()[0] + ' ' + dictionary[
+        list(dictionary.items())[i][0]])
