@@ -1,0 +1,18 @@
+# Эпизод 1
+
+import pandas as pd
+
+# Задача № 1
+file = 'transactions.csv'
+transactions = pd.read_csv(file)
+transactions.set_axis(['NUMBER', 'CONTRACTOR', 'STATUS', 'SUM'], axis='columns', inplace=True)
+transactions.set_index('NUMBER', inplace=True)
+status_ok = transactions.loc[transactions.STATUS == 'OK']
+sorted_status_ok = status_ok.sort_values(by='SUM')
+print(sorted_status_ok.iloc[-3:, :])
+
+print('=========')
+
+# Задача № 2
+umbrella_sum = transactions.loc[(transactions.CONTRACTOR == 'Umbrella, Inc') & (transactions.STATUS == 'OK')]
+print('Полная сумма реально проведённых платежей в адрес "Umbrella, Inc": ' + str(umbrella_sum.sum().SUM))
