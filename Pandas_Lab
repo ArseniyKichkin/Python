@@ -16,3 +16,53 @@ print('=========')
 # Задача № 2
 umbrella_sum = transactions.loc[(transactions.CONTRACTOR == 'Umbrella, Inc') & (transactions.STATUS == 'OK')]
 print('Полная сумма реально проведённых платежей в адрес "Umbrella, Inc": ' + str(umbrella_sum.sum().SUM))
+
+# Эпизод 2
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+flights = pd.read_csv('flights.csv')
+flights.pop('Unnamed: 0')
+
+# Nimble handle
+
+nimble_df = flights.loc[flights.CARGO == 'Nimble']
+nimble_columns = ['Flights', 'Sum', 'Weight']
+nimble_df = pd.DataFrame([[len(nimble_df.index), nimble_df.sum().PRICE, nimble_df.sum().WEIGHT]],
+                         columns=nimble_columns)
+
+# Jumbo handle
+
+jumbo_df = flights.loc[flights.CARGO == 'Jumbo']
+jumbo_columns = nimble_columns
+jumbo_df = pd.DataFrame([[len(jumbo_df.index), jumbo_df.sum().PRICE, jumbo_df.sum().WEIGHT]], columns=jumbo_columns)
+
+# Medium handle
+
+medium_df = flights.loc[flights.CARGO == 'Medium']
+medium_columns = nimble_columns
+medium_df = pd.DataFrame([[len(medium_df.index), medium_df.sum().PRICE, medium_df.sum().WEIGHT]],
+                         columns=medium_columns)
+
+# Plotting
+
+names = flights.CARGO.unique()
+x = np.arange(len(names))
+width = 0.2
+
+fig, ax = plt.subplots()
+rect1 = ax.bar(x - width, [nimble_df.Flights.unique()[0], jumbo_df.Flights.unique()[0], medium_df.Flights.unique()[0]],
+               width, label='Flights')
+rect2 = ax.bar(x, [nimble_df.Sum.unique()[0], jumbo_df.Sum.unique()[0], medium_df.Sum.unique()[0]], width,
+               label='Sum')
+rect3 = ax.bar(x + width, [nimble_df.Weight.unique()[0], jumbo_df.Weight.unique()[0], medium_df.Weight.unique()[0]],
+               width, label='Weight')
+
+ax.set_ylabel('Number')
+ax.set_xticks(x)
+ax.set_xticklabels(names)
+ax.legend()
+
+fig.tight_layout()
+plt.show()
