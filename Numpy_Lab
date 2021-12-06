@@ -15,3 +15,20 @@ for photo in os.listdir("First"):
     res_img = Image.fromarray(updated_data).convert('L')
     res_img.save(str(counter)+'.jpg')
     counter += 1
+
+# Эпизод 2
+
+fig, ax = plt.subplots(len(os.listdir("signals")), 2, figsize=(18, 12), constrained_layout=True)
+counter = 0
+for file in os.listdir("signals"):
+    data = np.loadtxt(os.path.join("signals", file))
+    ax[counter, 0].plot(np.arange(0, len(data)), data)
+    ax[counter, 0].set_title(file[:-4])
+
+    new_data = np.convolve(data, np.ones(10), mode='valid') / 10
+    ax[counter, 1].plot(np.arange(0, len(new_data)), new_data)
+    ax[counter, 1].set_title(file[:-4])
+    counter += 1
+
+plt.savefig("22.png")
+plt.show()
