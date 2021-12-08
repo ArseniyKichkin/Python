@@ -17,6 +17,9 @@ for photo in os.listdir("First"):
     counter += 1
 
 # Эпизод 2
+import numpy as np
+import matplotlib.pyplot as plt
+
 
 fig, ax = plt.subplots(len(os.listdir("signals")), 2, figsize=(18, 12), constrained_layout=True)
 counter = 0
@@ -37,6 +40,7 @@ plt.show()
 
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
+import numpy as np
 
 U = np.loadtxt("start.dat.txt")
 A = np.eye(len(U))
