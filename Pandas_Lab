@@ -19,6 +19,7 @@ print('Полная сумма реально проведённых плате�
 
 # Эпизод 2
 
+import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -68,6 +69,8 @@ fig.tight_layout()
 plt.show()
 
 # Эпизод 3
+import pandas as pd
+import matplotlib.pyplot as plt
 
 pd.set_option('display.max_columns', None)
 
