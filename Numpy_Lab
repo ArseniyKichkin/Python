@@ -19,6 +19,7 @@ for photo in os.listdir("First"):
 # Эпизод 2
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 
 fig, ax = plt.subplots(len(os.listdir("signals")), 2, figsize=(18, 12), constrained_layout=True)
