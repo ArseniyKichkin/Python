@@ -1,0 +1,71 @@
+import numpy as np
+import sympy
+
+# Эпизод № 1
+
+r, l, n = sympy.symbols('r l n')
+A = sympy.Matrix(np.zeros((9, 9)))
+A[0, 3] = -1 / r
+A[1, 4] = -1 / r
+A[2, 5] = -1 / r
+A[3, 0] = -(l + 2 * n)
+A[4, 1] = -n
+A[5, 2] = -n
+A[6, 0] = -l
+A[8, 0] = -l
+
+sympy.pprint(A.eigenvals())
+
+# Эпизод № 2
+
+
+import numpy as np
+from scipy import linalg
+import matplotlib.pyplot as plt
+
+dim = int(np.loadtxt('Sys/2.txt', max_rows=1))
+a = np.loadtxt('Sys/2.txt', skiprows=1, max_rows=dim)
+b = np.loadtxt('Sys/2.txt', skiprows=dim + 1)
+
+fig, ax = plt.subplots()
+ans = np.around(linalg.inv(a).dot(b), decimals=5)
+# Solution
+print(ans)
+x = np.arange(0, 100)
+y = ans
+ax.bar(x, y)
+plt.show()
+
+# Эпизод № 3
+
+
+import sympy
+import scipy.integrate
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def F(y_, x_):
+    return -2 * y_
+
+
+x = sympy.Symbol('x')
+y = sympy.Function('y')(x)
+
+X = np.linspace(0, 10, 101)
+diff = sympy.Eq(y.diff(x) + 2 * y, 0)
+eq = sympy.dsolve(diff, ics={y.subs(x, 0): sympy.sqrt(2)})
+y_sym = [eq.evalf(subs={x: i}).args[1] for i in X]
+
+y_sci = scipy.integrate.odeint(F, np.sqrt(2), X)
+print(y_sym, y_sci)
+fig, ax = plt.subplots(2, figsize=(8, 10))
+ax[0].plot(X, 1.4*np.exp(-2*X), label='Sympy')
+ax[0].plot(X, y_sci, '--', label='Scipy')
+ax[0].grid()
+ax[0].legend()
+
+ax[1].plot(X, [abs(1.4*np.exp(i) - y_sci[i]) for i in range(len(y_sym))])
+ax[1].set_title('Разница между Sympy и Scipy')
+ax[1].grid()
+plt.show()
